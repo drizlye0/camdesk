@@ -4,15 +4,14 @@ import 'package:flutter/foundation.dart';
 import 'package:image/image.dart' as imglib;
 
 class ImageServer with ChangeNotifier {
-  Socket? _client;
-  bool _serverIsInitialized = false;
-  bool _clientConnected = false;
-
   static ImageServer? _instance;
 
+  Socket? _client;
   ServerSocket? _server;
-
   final int port;
+  bool _serverIsInitialized = false;
+  bool _clientConnected = false;
+  String state = "Stopped";
 
   ImageServer._(this.port);
 
@@ -31,7 +30,7 @@ class ImageServer with ChangeNotifier {
     _server!.listen((Socket client) {
       _setClientConnected(true);
       _client = client;
-
+      print("client connectd");
       _client?.listen(
         (Uint8List data) {},
 
@@ -54,8 +53,8 @@ class ImageServer with ChangeNotifier {
     await _client?.close();
     await _server?.close();
     _server = null;
-    _setServerIsInitialized(false);
     _setClientConnected(false);
+    _setServerIsInitialized(false);
   }
 
   void sendImage(imglib.Image image) {
@@ -74,11 +73,21 @@ class ImageServer with ChangeNotifier {
 
   void _setClientConnected(bool value) {
     _clientConnected = value;
+    if (value) {
+      state = "Connected";
+    } else {
+      state = "Waiting for connection";
+    }
     notifyListeners();
   }
 
   void _setServerIsInitialized(bool value) {
     _serverIsInitialized = value;
+    if (value) {
+      state = "Waiting for connection";
+    } else {
+      state = "Stopped";
+    }
     notifyListeners();
   }
 }

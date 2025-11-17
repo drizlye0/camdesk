@@ -16,7 +16,7 @@ class _CameraScreenState extends State<CameraScreen> {
   late CameraController _controller;
   ImageServer? _server;
 
-  void _initializeCameraAndServer() async {
+  void _initializeStream() async {
     _server = await ImageServer.getInstance(8080);
     _controller = CameraController(cameras[0], ResolutionPreset.medium);
     await _controller.initialize();
@@ -42,7 +42,7 @@ class _CameraScreenState extends State<CameraScreen> {
   @override
   void initState() {
     super.initState();
-    _initializeCameraAndServer();
+    _initializeStream();
   }
 
   @override

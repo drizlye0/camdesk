@@ -13,15 +13,15 @@ class HomeScreen extends StatelessWidget {
         children: [
           Text("Camera App"),
           ServerView(),
-          // ElevatedButton(
-          //   onPressed: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => CameraScreen()),
-          //     );
-          //   },
-          //   child: Text("Go to Camera"),
-          // ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CameraScreen()),
+              );
+            },
+            child: Text("Go to Camera"),
+          ),
         ],
       ),
     );
